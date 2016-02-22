@@ -92,12 +92,21 @@ class Motor:
         time.sleep((1/speed) * 70)
     def upLeft(steps1, steps2, speed)
         rotate2(steps1,steps2, speed, StepPin1, DirPin1, StepPin2, DirPin2) #TODO Change sign of steps, so that it reflects actual movement of motor
+        GPIO.output(StepPin1, False)
+        GPIO.output(StepPin2, False)
+        time.sleep((1/speed) * 70)
     def upRight(steps1, steps2, speed)
         rotate2(steps1,steps2, speed, StepPin1, DirPin1, StepPin2, DirPin2) #TODO Change sign of steps, so that it reflects actual movement of motor
+        GPIO.output(StepPin1, False)
+        GPIO.output(StepPin2, False)
     def downLeft(steps1, steps2, speed)
         rotate2(steps1,steps2, speed, StepPin1, DirPin1, StepPin2, DirPin2) #TODO Change sign of steps, so that it reflects actual movement of motor    
+        GPIO.output(StepPin1, False)
+        GPIO.output(StepPin2, False)
     def downRight(steps1, steps2, speed)
         rotate2(steps1,steps2, speed, StepPin1, DirPin1, StepPin2, DirPin2) #TODO Change sign of steps, so that it reflects actual movement of motor    
+        GPIO.output(StepPin1, False)
+        GPIO.output(StepPin2, False)
 '''
 # Read wait time from command line
 if len(sys.argv)>1:
