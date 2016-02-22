@@ -20,7 +20,7 @@ class Motor:
     StepPin = 19
     DirPin = 16
     Step = 0.01
-    Dir = 1 # Set to 1 or 2 for clockwise
+    #Dir = 1 # Set to 1 or 2 for clockwise
             # Set to -1 or -2 for anti-clockwise
 
     def rotate(steps, speed):
@@ -30,11 +30,31 @@ class Motor:
         else:
             bool = False
         steps = abs(steps)
+        GPIO.output(DirPin,dir)
+        delay = (1/speed) * 70
+        
         for i in range(0, steps):
-            GPIO.output(19, True)
+            GPIO.output(StepPin, True)
+            time.sleep(delay)
+        GPIO.output(StepPin, False)
+        time.sleep(delay)
+    
+    def rotateDeg(deg, speed)
+        bool dir
+        if (steps > 0):
+            bool = True
+        else:
+            bool = False
+        int steps = abs(deg)*(1/0.225)
+        GPIO.output(DirPin,dir)
+        delay = (1/speed) * 70
+        for i in range(0, steps):
+            GPIO.output(StepPin, True)
+            time.sleep(delay)
+        GPIO.output(StepPin, False)
+        time.sleep(delay)
 
-
-
+'''
 # Read wait time from command line
 if len(sys.argv)>1:
   WaitTime = int(sys.argv[1])/float(1000)
@@ -69,3 +89,4 @@ while True:
 
   # Wait before moving on
   time.sleep(WaitTime)
+  '''
