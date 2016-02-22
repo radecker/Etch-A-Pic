@@ -1,6 +1,7 @@
 import sys
 import time
 import RPi.GPIO as GPIO
+delay = 0.01
 class Motor:
 # Use BCM GPIO references
 # instead of physical pin numbers
@@ -26,11 +27,11 @@ class Motor:
             # Set to -1 or -2 for anti-clockwise
 
     def rotate(steps, speed, DirPin, StepPin):
-        bool dir
+        
         if (steps > 0):
-            bool = True
+            dir = True
         else:
-            bool = False
+            dir = False
         steps = abs(steps)
         GPIO.output(DirPin,dir)
         delay = (1/speed) * 70
@@ -38,9 +39,11 @@ class Motor:
         for i in range(0, steps):
             GPIO.output(StepPin, True)
             time.sleep(delay)
+	    GPIO.output(StepPin, False)
+            time.sleep(delay)
     
     def rotate2(steps1, steps2, speed, DirPin1, StepPin1, DirPin2, StepPin2):
-        bool dir
+        
         if (steps1 > 0):
             dir = True
         else:
@@ -61,52 +64,53 @@ class Motor:
             time.sleep(delay)
     
     
-    def rotateDeg(deg, speed, DirPin, StepPin)
-        bool dir
-        if (steps > 0):
-            bool = True
+    def rotateDeg(deg, speed, DirPin, StepPin):
+        if (deg > 0):
+            dir = True
         else:
-            bool = False
-        int steps = abs(deg)*(1/0.225)
+            dir = False
+	deg = abs(deg)
+        steps = int(deg/0.225)
         GPIO.output(DirPin,dir)
         for i in range(0, steps):
             GPIO.output(StepPin, True)
             time.sleep(delay)
-        GPIO.output(StepPin, False)
-        time.sleep(delay)
-    def left(steps, speed)
+            GPIO.output(StepPin, False)
+            time.sleep(delay)
+    def left(steps, speed):
         rotate(steps, speed, StepPin1, DirPin1) #TODO Change sign of steps, so that it reflects actual movement of motor
         GPIO.output(StepPin, False)
         time.sleep((1/speed) * 70)
-    def right(steps, speed)
+    def right(steps, speed):
         rotate(steps, speed, StepPin1, DirPin1) #TODO Change sign of steps, so that it reflects actual movement of motor
         GPIO.output(StepPin, False)
         time.sleep((1/speed) * 70)
-    def down(steps, speed)
+    def down(steps, speed):
         rotate(steps, speed, StepPin2, DirPin2) #TODO Change sign of steps, so that it reflects actual movement of motor
         GPIO.output(StepPin, False)
         time.sleep((1/speed) * 70)
-    def up(steps, speed)
+    def up(steps, speed):
         rotate(steps, speed, StepPin2, DirPin2) #TODO Change sign of steps, so that it reflects actual movement of motor
         GPIO.output(StepPin, False)
         time.sleep((1/speed) * 70)
-    def upLeft(steps1, steps2, speed)
+    def upLeft(steps1, steps2, speed):
         rotate2(steps1,steps2, speed, StepPin1, DirPin1, StepPin2, DirPin2) #TODO Change sign of steps, so that it reflects actual movement of motor
         GPIO.output(StepPin1, False)
         GPIO.output(StepPin2, False)
         time.sleep((1/speed) * 70)
-    def upRight(steps1, steps2, speed)
+    def upRight(steps1, steps2, speed):
         rotate2(steps1,steps2, speed, StepPin1, DirPin1, StepPin2, DirPin2) #TODO Change sign of steps, so that it reflects actual movement of motor
         GPIO.output(StepPin1, False)
         GPIO.output(StepPin2, False)
-    def downLeft(steps1, steps2, speed)
+    def downLeft(steps1, steps2, speed):
         rotate2(steps1,steps2, speed, StepPin1, DirPin1, StepPin2, DirPin2) #TODO Change sign of steps, so that it reflects actual movement of motor    
         GPIO.output(StepPin1, False)
         GPIO.output(StepPin2, False)
-    def downRight(steps1, steps2, speed)
+    def downRight(steps1, steps2, speed):
         rotate2(steps1,steps2, speed, StepPin1, DirPin1, StepPin2, DirPin2) #TODO Change sign of steps, so that it reflects actual movement of motor    
         GPIO.output(StepPin1, False)
         GPIO.output(StepPin2, False)
+    rotate(10000,1000,16,19)
 '''
 # Read wait time from command line
 if len(sys.argv)>1:
