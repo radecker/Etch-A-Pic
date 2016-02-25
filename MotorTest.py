@@ -110,7 +110,7 @@ class Motor:
         rotate2(steps1,steps2, speed, StepPin1, DirPin1, StepPin2, DirPin2) #TODO Change sign of steps, so that it reflects actual movement of motor    
         GPIO.output(StepPin1, False)
         GPIO.output(StepPin2, False)
-    rotate(10000,1000,16,19)
+    rotate(100000,1000,16,19)
 '''
 # Read wait time from command line
 if len(sys.argv)>1:
