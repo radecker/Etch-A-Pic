@@ -1,7 +1,7 @@
 import sys
 import time
 import RPi.GPIO as GPIO
-delay = 0.01
+delay = 0.001
 class Motor:
 # Use BCM GPIO references
 # instead of physical pin numbers
@@ -22,7 +22,7 @@ class Motor:
     DirPin1 = 16
     StepPin2 = 26
     DirPin2 = 20
-    Step = 0.01
+    Step = 1.0
     #Dir = 1 # Set to 1 or 2 for clockwise
             # Set to -1 or -2 for anti-clockwise
 
@@ -32,16 +32,14 @@ class Motor:
             dir = True
         else:
             dir = False
-        steps = abs(steps)
+        steps = int(abs(steps))
         GPIO.output(DirPin,dir)
-        delay = (1/speed) * 70
-        
+        #delay = float(1/(speed*1000))
         for i in range(0, steps):
-            GPIO.output(StepPin, True)
-            time.sleep(delay)
-	    GPIO.output(StepPin, False)
-            time.sleep(delay)
-    
+	    GPIO.output(StepPin, True)
+            #time.sleep(delay)
+    	    GPIO.output(StepPin, False)
+	    time.sleep(delay)
     def rotate2(steps1, steps2, speed, DirPin1, StepPin1, DirPin2, StepPin2):
         
         if (steps1 > 0):
@@ -56,7 +54,7 @@ class Motor:
         steps2 = abs(steps2)
         GPIO.output(DirPin1,dir)
         GPIO.output(DirPin2,dir)
-        delay = (1/speed) * 70
+        delay = (1/(speed*1000)) * 70
         
         for i in range(0, steps1):
             GPIO.output(StepPin1, True)
@@ -110,7 +108,7 @@ class Motor:
         rotate2(steps1,steps2, speed, StepPin1, DirPin1, StepPin2, DirPin2) #TODO Change sign of steps, so that it reflects actual movement of motor    
         GPIO.output(StepPin1, False)
         GPIO.output(StepPin2, False)
-    rotate(10000,1000,16,19)
+    rotate(5000,.1,16,19)
 '''
 # Read wait time from command line
 if len(sys.argv)>1:
