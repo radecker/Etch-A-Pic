@@ -11,7 +11,7 @@ quickRow = 0
 
 speed = 1
 step = 1
-im = cv2.imread('messi21.jpg')
+im = cv2.imread('messi47.jpg')
 kernel = np.ones((5, 5), np.float32)/25
 blur = cv2.pyrDown(im)
 blur2 = cv2.pyrUp(blur)
@@ -100,6 +100,7 @@ def ConnectPoints(row, col):
     pointRow = row
     pointCol = col
     val = 2
+    global edges
     global quickRow
     global quickCol
     while val < rowLength and val < colLength:
@@ -169,21 +170,21 @@ def ConnectPoints(row, col):
                     point = [pointRow, pointCol]
 
                     if i > row:
-                        for k in range(0, i-row-1):
+                        for k in range(0, i-row):
                             #mt.down(step,speed)
-                            edges[row+i,col] = 255
+                            edges[row+k,col] = 255
                     else:
-                        for k in range(0, row-i-1):
+                        for k in range(0, row-i):
                             #mt.up(step,speed)
-                            edges[row-i,col] = 255
+                            edges[row-k,col] = 255
                     if j > col:
-                        for k in range(0, j-col-1):
+                        for k in range(0, j-col):
                             #mt.right(step,speed)
-                            edges[row,col+i] = 255
+                            edges[row,col+k] = 255
                     else:
-                        for k in range(0, col-j-1):
+                        for k in range(0, col-j):
                             #mt.left(step,speed)
-                            edges[row,col-i] = 255
+                            edges[row,col-k] = 255
 
                     return point
     point = [pointRow, pointCol]
@@ -193,7 +194,7 @@ point = RemovePoint(maxRow, maxCol)
 
 while count > 1:
     newPoint = ConnectPoints(point[0], point[1])
-    RemovePoint(newPoint[0], newPoint[1])
+    point = RemovePoint(newPoint[0], newPoint[1])
 
 print count
 print maxVal
@@ -202,6 +203,6 @@ print point[1]
 print maxRow
 print maxCol
 
-plt.subplot(121), plt.imshow(drawArray, cmap='gray')
-plt.subplot(122), plt.imshow(edges, cmap='gray')
+#plt.subplot(121), plt.imshow(drawArray, cmap='gray')
+plt.imshow(edges, cmap='gray')
 plt.show()
