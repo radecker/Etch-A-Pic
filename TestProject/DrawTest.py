@@ -11,7 +11,7 @@ quickRow = 0
 
 speed = 1
 step = 1
-im = cv2.imread('messi47.jpg')
+im = cv2.imread('messi2.jpg')
 kernel = np.ones((5, 5), np.float32)/25
 blur = cv2.pyrDown(im)
 blur2 = cv2.pyrUp(blur)
@@ -103,7 +103,8 @@ def ConnectPoints(row, col):
     global edges
     global quickRow
     global quickCol
-    while val < rowLength and val < colLength:
+    global count
+    while val < rowLength and val < colLength and count > 100:
         if row-val >= 0 and drawArray[row-val,col] == 255:
             pointRow = row-val
 
@@ -187,6 +188,86 @@ def ConnectPoints(row, col):
                             edges[row,col-k] = 255
 
                     return point
+    if count <= 100:
+        if rowLength-row < colLength-col and rowLength - row < row and rowLength-row < col:
+            for k in range(0, rowLength-row):
+                #mt.down(step,speed)
+                edges[row+k,col] = 255
+            for k in range(0, col):
+                #mt.left(step,speed)
+                edges[row, col-k] = 255
+            for k in range(0, rowLength):
+                #mt.up(step,speed)
+                edges[rowLength-k-1,0] = 255
+        elif colLength - col < rowLength - row and colLength-col < col and colLength-col < row:
+            for k in range(0, colLength - col):
+                #mt.right(step,speed)
+                edges[row,col+k] = 255
+            for k in range(0, row):
+                #mt.up(step,speed)
+                edges[row-k,colLength-1] = 255
+            for k in range(0, colLength):
+                #mt.left(step,speed)
+                edges[0, colLength-k-1] = 255
+        elif row < col:
+            for k in range(0, row):
+                #mt.up(step,speed)
+                edges[row-k,col] = 255
+            for k in range(0, col):
+                #mt.left(step,speed)
+                edges[row, col-k] = 255
+        else:
+            for k in range(0, col):
+                #mt.left(step,speed)
+                edges[row,col-k] = 255
+            for k in range(0, row):
+                #mt.up(step,speed)
+                edges[row-k,0] = 255
+        for i in range(quickRow, rowLength):
+            for j in range(0, colLength):
+                if drawArray[i,j] == 255:
+                    pointRow = i
+                    pointCol = j
+                    quickRow = i
+                    point = [pointRow, pointCol]
+                    if rowLength - i < colLength-j and rowLength-i < i and rowLength-i < j:
+                        for k in range(0, rowLength):
+                            #mt.down(step,speed)
+                            edges[k,0] = 255
+                        for k in range(0,j):
+                            #mt.right(step,speed)
+                            edges[rowLength-1,k] = 255
+                        for k in range(0,rowLength-i):
+                            #mt.up(step,speed)
+                            edges[rowLength-k-1,j] = 255
+                    elif colLength - j < rowLength - i and colLength - j < j and colLength - j < i:
+                        for k in range(0, colLength):
+                            #mt.right(step,speed)
+                            edges[0,k] = 255
+                        for k in range(0, i):
+                            #mt.down(step,speed)
+                            edges[k,colLength-1] = 255
+                        for k in range(0,colLength-j):
+                            #mt.left(step,speed)
+                            edges[i,colLength-k-1] = 255
+                    elif i < j:
+                        for k in range(0, j):
+                            #mt.right(step,speed)
+                            edges[0,k] = 255
+                        for k in range (0, i):
+                            #mt.down(step,speed)
+                            edges[k,j] = 255
+                    else:
+                        for k in range (0, i):
+                            #mt.down(step,speed)
+                            edges[k,0] = 255
+                        for k in range(0, j):
+                            #mt.right(step,speed)
+                            edges[i,k] = 255
+                    return point
+
+
+
     point = [pointRow, pointCol]
     return point
 
