@@ -10,12 +10,12 @@ class Motor:
 # Define GPIO signals to use
 # Physical pins 35, 36, 37, 38, 29, 31, 32, 33, 13, 15, 16, 18
 # GPIO19, GPIO16, GPIO26, GPIO20, GPIO5, GPIO6, GPIO12, GPIO13, GPIO27, GPIO22, GPIO23, GPIO24
-    StepPins = [19,16,26,20,5,6,12,13,27,22,23,24]
+    StepPins = [19,16]
 
 # Set all pins as output
     for pin in StepPins:
-        print "Setup pins"
         GPIO.setup(pin,GPIO.OUT)
+	print "Setup pins"	
         GPIO.output(pin, False)
 
     StepPin1 = 19
@@ -34,10 +34,10 @@ def rotate(steps, speed, DirPin, StepPin):
         dir = False
     steps = int(abs(steps))
     GPIO.output(DirPin,dir)
-    #delay = float(1/(speed*1000))
+    #delay = float(1/(speed))
     for i in range(0, steps):
         GPIO.output(StepPin, True)
-        #time.sleep(delay)
+        time.sleep(delay)
     	GPIO.output(StepPin, False)
     time.sleep(delay)
 
@@ -101,7 +101,8 @@ def downLeft(steps1, steps2, speed):
 def downRight(steps1, steps2, speed):
     global StepPin1, DirPin1, StepPin2, DirPin2
     rotate2(steps1,steps2, speed, StepPin1, DirPin1, StepPin2, DirPin2) #TODO Change sign of steps, so that it reflects actual movement of motor
-#rotate(100000,1000,16,19)
+rotate(100000,1,16,19)
+GPIO.cleanup()
 '''
 # Read wait time from command line
 if len(sys.argv)>1:
