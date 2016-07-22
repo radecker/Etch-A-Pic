@@ -1,25 +1,22 @@
-//////////////////////////////////////////////////////////////////
-//©2011 bildr
-//Released under the MIT License - Please reuse change and share
-//Using the easy stepper with your arduino
-//use rotate and/or rotateDeg to controll stepper motor
-//speed is any number from .01 -> 1 with 1 being fastest - 
-//Slower Speed == Stronger movement
-/////////////////////////////////////////////////////////////////
 
+//0.68
+//0.59
 #define DIR_PIN 2  // Right Motor
 #define STEP_PIN 3 // Right Motor
 #define DIR_PIN2 4  // Left Motor
 #define STEP_PIN2 5  // Left Motor
-#define SPEED 2 
-int STEPSIZE = 800;
+#define SPEED 2 //2 
+int STEPSIZE =  200; // 200
 int dataIn = 0;
+int LEDPin = 13;
+
 
 void setup() { 
   pinMode(DIR_PIN, OUTPUT); 
   pinMode(STEP_PIN, OUTPUT);
   pinMode(DIR_PIN2, OUTPUT); 
-  pinMode(STEP_PIN2, OUTPUT); 
+  pinMode(STEP_PIN2, OUTPUT);
+  pinMode(LEDPin, OUTPUT);
   Serial.begin(9600);
 } 
 
@@ -31,7 +28,12 @@ void loop(){
     dataIn = Serial.read();
     Serial.println(dataIn);
    TypeCheck(dataIn);
-   }
+   //digitalWrite(LEDPin, HIGH);
+   //delay(0.00001);
+   //digitalWrite(LEDPin, LOW);
+   //delay(0.00001);
+}
+   
    
 //rotate2(100, false, false, 2);
 //delay(20);
@@ -47,7 +49,7 @@ void loop(){
 void TypeCheck(int dataIn){
   //Up
   if(dataIn == 48){
-    rotate(-STEPSIZE*.59,SPEED,2); // up limiter
+    rotate(-STEPSIZE*.295,SPEED,2); // up limiter
     rotate(STEPSIZE,SPEED,4);
     rotate(STEPSIZE,SPEED,2);
     rotate(-STEPSIZE,SPEED,4);
@@ -55,7 +57,7 @@ void TypeCheck(int dataIn){
   }
   //Down
   if(dataIn == 49){
-    rotate(STEPSIZE*.59, SPEED,2);
+    rotate(STEPSIZE*.295, SPEED,2);
     rotate(STEPSIZE, SPEED,2);
     rotate(STEPSIZE, SPEED,4);
     rotate(-STEPSIZE, SPEED,2);
@@ -63,7 +65,7 @@ void TypeCheck(int dataIn){
   }
   //Left
   if(dataIn == 50){
-    rotate(STEPSIZE*.68,SPEED,4);
+    rotate(STEPSIZE*.34,SPEED,4);
     rotate(STEPSIZE,SPEED,4);
     rotate(STEPSIZE,SPEED,2);
     rotate(-STEPSIZE,SPEED,4);
@@ -71,7 +73,7 @@ void TypeCheck(int dataIn){
   }
   //Right
   if(dataIn == 51){
-    rotate(-STEPSIZE*.68, SPEED,4);
+    rotate(-STEPSIZE*.34, SPEED,4);
     rotate(STEPSIZE, SPEED,2);
     rotate(STEPSIZE, SPEED,4);
     rotate(-STEPSIZE, SPEED,2);
@@ -79,8 +81,8 @@ void TypeCheck(int dataIn){
   }
   if(dataIn == 52){
     //UpRight
-    rotate(-STEPSIZE*.68, SPEED,4);
-    rotate(-STEPSIZE*.59, SPEED,2);
+    rotate(-STEPSIZE*.67, SPEED,4);  //.34
+    rotate(-STEPSIZE*.625, SPEED,2);  //.295
     rotate(STEPSIZE, SPEED,4);
     rotate(STEPSIZE, SPEED,2);
     rotate(-STEPSIZE, SPEED,4);
@@ -90,8 +92,8 @@ void TypeCheck(int dataIn){
     //DownLeft
     rotate(STEPSIZE, SPEED,2);
     rotate(STEPSIZE, SPEED,4);
-    rotate(STEPSIZE, SPEED,2);
-    rotate(STEPSIZE, SPEED,4);
+    rotate(STEPSIZE*.313, SPEED,2); //.295
+    rotate(STEPSIZE*.358, SPEED,4); //.34
     rotate(-STEPSIZE, SPEED,2);
     rotate(-STEPSIZE, SPEED,4);
     
@@ -99,8 +101,8 @@ void TypeCheck(int dataIn){
   if(dataIn == 54){
     //DownRight
     rotate(STEPSIZE, SPEED,2);
-    rotate(-STEPSIZE, SPEED,4);
-    rotate(STEPSIZE, SPEED,2);
+    rotate(-STEPSIZE*.67, SPEED,4);  //.34
+    rotate(STEPSIZE*.225, SPEED,2);  //.295
     rotate(STEPSIZE, SPEED,4);
     rotate(-STEPSIZE, SPEED,2);
     rotate(-STEPSIZE, SPEED,4);
@@ -108,8 +110,8 @@ void TypeCheck(int dataIn){
   if(dataIn == 55){
     //UpLeft
     rotate(STEPSIZE, SPEED,4);
-    rotate(-STEPSIZE, SPEED,2);
-    rotate(STEPSIZE, SPEED,4);
+    rotate(-STEPSIZE*.225, SPEED,2);  //.295
+    rotate(STEPSIZE*.27, SPEED,4);  //.34
     rotate(STEPSIZE, SPEED,2);
     rotate(-STEPSIZE, SPEED,4);
     rotate(-STEPSIZE, SPEED,2);
@@ -124,7 +126,8 @@ void rotate(int steps, float speed,int dir_pin){
   if(dir_pin == 2) {
     digitalWrite(DIR_PIN,dir); 
 
-    float usDelay = (1/speed) * 70;
+    //float usDelay = (1/speed) * 70;
+    float usDelay = 35; //250
 
     for(int i=0; i < steps; i++){ 
       digitalWrite(STEP_PIN, HIGH); 
@@ -137,7 +140,7 @@ void rotate(int steps, float speed,int dir_pin){
   if(dir_pin == 4) {
     digitalWrite(DIR_PIN2,dir); 
 
-    float usDelay = (1/speed) * 70;
+    float usDelay = 35;
 
     for(int i=0; i < steps; i++){ 
       digitalWrite(STEP_PIN2, HIGH); 

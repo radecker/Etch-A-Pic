@@ -1,6 +1,36 @@
-
-import sys
+import serial
 import time
+import struct
+ser = serial.Serial()
+ser.baudrate = 9600
+ser.port = 'COM3'
+ser.open()
+time.sleep(2);
+ser.write('9\r\n')
+
+
+
+
+def left(steps, speed):
+    ser.write('2\r\n')
+def right(steps, speed):
+    ser.write('3\r\n')
+def down(steps, speed):
+    ser.write('1\r\n')
+def up(steps, speed):
+    ser.write('0\r\n')
+def upLeft(steps1, speed):
+    ser.write('7\r\n')
+def upRight(steps1, speed):
+    ser.write('4\r\n')
+def downLeft(steps1, speed):
+    ser.write('5\r\n')
+def downRight(steps1, speed):
+    ser.write('6\r\n')
+ser.close()
+'''
+import sys
+
 import RPi.GPIO as GPIO
 delay = 0.001
 class Motor:
@@ -103,7 +133,7 @@ def downRight(steps1, steps2, speed):
     global StepPin1, DirPin1, StepPin2, DirPin2
     rotate2(steps1,steps2, speed, StepPin1, DirPin1, StepPin2, DirPin2) #TODO Change sign of steps, so that it reflects actual movement of motor
 #rotate(100000,1000,16,19)
-'''
+
 # Read wait time from command line
 if len(sys.argv)>1:
   WaitTime = int(sys.argv[1])/float(1000)
